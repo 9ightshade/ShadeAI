@@ -1,10 +1,11 @@
 "use client";
-import TextInterface from "./TextInterface";
+import ChatInterface from "./ChatInterface";
+// import TextInterface from "./TextInterface";
 
 export default function Home() {
   return (
     <div>
-      <TextInterface />
+      <ChatInterface/>
     </div>
   );
 }
