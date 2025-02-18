@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta
-          http-equiv="origin-trial"
+          httpEquiv="origin-trial"
           content="AnII61vagEjiAiy85VD9XXLRoPvSO9G2nlEXx3AaExnN8K2DO1SNj1sKrzKf/4AvaM7aK6CtcL8zGj3X7JQPXQMAAABneyJvcmlnaW4iOiJodHRwczovL3NoYWRlLWFpLWthcHBhLnZlcmNlbC5hcHA6NDQzIiwiZmVhdHVyZSI6Ikxhbmd1YWdlRGV0ZWN0aW9uQVBJIiwiZXhwaXJ5IjoxNzQ5NTk5OTk5fQ=="
         />
       </head>
