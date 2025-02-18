@@ -8,10 +8,7 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      }, animation: {
+      animation: {
         'fade-in': 'fadeIn 0.3s ease-out',
       },
       keyframes: {
@@ -22,7 +19,8 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      }, backdropBlur: {
+      },
+      backdropBlur: {
         xs: '2px',
       },
     },

@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { SendIcon } from 'lucide-react';
-import AnimatedShape3D from './animatedShape3D';
+
 
 // Mock APIs for development - replace with actual Chrome AI APIs in production
 const mockLanguageDetector = async (text: string) => {
@@ -39,6 +41,12 @@ const TextInterface = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [selectedLanguage, setSelectedLanguage] = useState('en');
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [detectedLanguage, setDetectedLanguage] = useState('');
+    const [translatedText, setTranslatedText] = useState('');
+    const [language, setLanguage] = useState('en');
+    const [isSummarized, setIsSummarized] = useState(false);
+    const [summarizer, setSummarizer] = useState(null);
+    const [translator, setTranslator] = useState(null);
   
     const languageNames = {
       en: 'English',
@@ -49,6 +57,8 @@ const TextInterface = () => {
       fr: 'French'
     };
   
+
+    
     useEffect(() => {
       scrollToBottom();
     }, [messages]);
@@ -121,8 +131,8 @@ const TextInterface = () => {
     return (
       <div className="flex flex-col h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
         <header className="pt-12 pb-8 px-4 text-center">
-          <h1 className="text-2xl font-light text-gray-700">Shade AI</h1>
-          <p className="text-sm text-gray-500 mt-2">Ask our AI anything</p>
+          <h1 className="text-2xl font-light text-purple-800">Shade AI</h1>
+          <p className="text-sm text-purple-500 mt-2">Ask our AI anything</p>
         </header>
 
   
@@ -197,14 +207,14 @@ const TextInterface = () => {
             <div ref={messagesEndRef} />
           </div>
   
-          <div className="relative">
+          <div className="relative border border-purple-600 rounded-2xl">
             <input
               type="text"
               value={inputText}
               onChange={handleInputChange}
               placeholder="Ask me anything that's on your mind..."
               aria-label="Input text"
-              className="w-full bg-white bg-opacity-80 backdrop-blur-sm rounded-full pl-4 pr-12 py-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 text-gray-700 placeholder-gray-400"
+              className="w-full bg-white bg-opacity-80 backdrop-blur-sm rounded-full pl-4 pr-12 py-3 shadow-sm focus:outline-none text-gray-700 placeholder-gray-400 outline-none"
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
