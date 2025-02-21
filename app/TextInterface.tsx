@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { SendIcon } from "lucide-react";
 import { languageNames } from "./data";
 
@@ -166,10 +167,26 @@ const TextInterface = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
-      <header className="pt-12 pb-8 px-4 text-center">
-        <h1 className="text-2xl font-light text-purple-800">Shade AI</h1>
-        <p className="text-sm text-purple-500 mt-2">Ask our AI anything</p>
-      </header>
+     {/* Animated Heading */}
+     <motion.h1
+        className="text-2xl text-center font-light text-purple-800"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        onAnimationComplete={handleAnimationComplete}>
+        Shade AI
+      </motion.h1>
+
+      {/* Animated Subheading */}
+      {showSummary && (
+        <motion.p
+          className="text-sm text-center text-purple-500 mt-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}>
+         Detect, Translate and Summarize
+        </motion.p>
+      )}
 
       <main className="flex-1 flex flex-col p-4 max-w-2xl mx-auto w-full">
         <div className="flex-1 overflow-y-auto mb-6 space-y-4 px-2 no-scrollbar">

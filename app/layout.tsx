@@ -29,6 +29,10 @@ export default function RootLayout({
           httpEquiv="origin-trial"
           content="AnII61vagEjiAiy85VD9XXLRoPvSO9G2nlEXx3AaExnN8K2DO1SNj1sKrzKf/4AvaM7aK6CtcL8zGj3X7JQPXQMAAABneyJvcmlnaW4iOiJodHRwczovL3NoYWRlLWFpLWthcHBhLnZlcmNlbC5hcHA6NDQzIiwiZmVhdHVyZSI6Ikxhbmd1YWdlRGV0ZWN0aW9uQVBJIiwiZXhwaXJ5IjoxNzQ5NTk5OTk5fQ=="
         />
+            <meta
+          httpEquiv="origin-trial"
+          content="Alz8TnBhFD6xY2vQsyMtDPVDP7dnogseMEQvXgvpudc9jXbZi0x7FSlHzIaQaaJz2Q13uefpnL/o++vgbGCQ2QkAAABheyJvcmlnaW4iOiJodHRwczovL3NoYWRlLWFpLWthcHBhLnZlcmNlbC5hcHA6NDQzIiwiZmVhdHVyZSI6IlRyYW5zbGF0aW9uQVBJIiwiZXhwaXJ5IjoxNzUzMTQyNDAwfQ=="
+        />
       </head>
 
       <body
