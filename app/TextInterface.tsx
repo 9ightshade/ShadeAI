@@ -7,27 +7,9 @@ import { motion } from "framer-motion";
 import { SendIcon } from "lucide-react";
 import { languageNames } from "./data";
 
-// Mock APIs for development - replace with actual Chrome AI APIs in production
-const mockLanguageDetector = async (text: string) => {
-  if (!("translation" in self) || !("createDetector" in self.translation)) {
-    console.log(".not-supported-message");
-    return;
-  }
-};
-
-const mockSummarizer = async (text: string) => {
-  // Simulated summarization
+const Summarizer = async (text: string) => {
+  //summarization
   return { summary: text.substring(0, Math.floor(text.length / 3)) + "..." };
-};
-
-const mockTranslator = async (text: string, targetLanguage: string) => {
-  // Simulated translation
-  return {
-    translation: `[Translated to ${targetLanguage}] ${text.substring(
-      0,
-      50
-    )}...`,
-  };
 };
 
 // Message type definition
@@ -131,29 +113,86 @@ const TextInterface = () => {
   };
 
   const handleSummarize = async (messageId: number) => {
+    if ("ai" in self && "summarizer" in self.ai) {
+      console.log(" // The Summarizer API is supported.");
+    }
     const message = messages.find((msg) => msg.id === messageId);
+    const available = await self.ai.summarizer.capabilities();
+    let summarizer;
+    console.log(available);
+
+    const options = {
+      sharedContext: message?.text,
+      type: "key-points",
+      format: "markdown",
+      length: "medium",
+    };
+
     if (!message) return;
 
     try {
-      const { summary } = await mockSummarizer(message.text);
+      const { summary } = await Summarizer(message.text);
       updateMessage(messageId, { summary });
     } catch (error) {
       console.error("Summarization failed:", error);
     }
+
+    // if (available === "no") {
+    //   console.log(" // The Summarizer API isn't usable.");
+
+    // return;
+    // }
+    // if (available === "readily") {
+    //   console.log(" // The Summarizer API can be used immediately .");
+
+    //   summarizer = await self.ai.summarizer.create(options);
+    // } else {
+    //   console.log(
+    //     "// The Summarizer API can be used after the model is downloaded."
+    //   );
+    // summarizer = await self.ai.summarizer.create(options);
+    // summarizer.addEventListener("downloadprogress", (e) => {
+    //   console.log(e.loaded, e.total);
+    // });
+    // await summarizer.ready;
   };
 
   const handleTranslate = async (messageId: number) => {
-    const message = messages.find((msg) => msg.id === messageId);
-    if (!message) return;
+    // Check if 'self' is defined
+    if (typeof self === "undefined") {
+      console.error("// 'self' is not defined in this environment.");
+      return;
+    }
 
-    try {
-      const { translation } = await mockTranslator(
-        message.text,
-        selectedLanguage
-      );
-      updateMessage(messageId, { translation });
-    } catch (error) {
-      console.error("Translation failed:", error);
+    // Check if 'ai' exists on 'self'
+    if (!("ai" in self)) {
+      console.error("// 'ai' property does not exist on 'self'.");
+      return;
+    }
+
+    // Check if 'translator' exists on 'self.ai'
+    if (!("translator" in self.ai)) {
+      console.error("// 'translator' property does not exist on 'self.ai'.");
+      return;
+    }
+
+    console.log("// The Translator API is supported.");
+
+    // Proceed with translation logic
+    const message = messages.find((msg) => msg.id === messageId);
+
+    if (message) {
+      try {
+        const translatedMessage = await self.ai.translator.translate(
+          message.text
+        );
+        console.log("// Translated Message:", translatedMessage);
+        return translatedMessage;
+      } catch (error) {
+        console.error("// Translation error:", error);
+      }
+    } else {
+      console.warn("// Message not found for ID:", messageId);
     }
   };
 
@@ -167,8 +206,8 @@ const TextInterface = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
-     {/* Animated Heading */}
-     <motion.h1
+      {/* Animated Heading */}
+      <motion.h1
         className="text-2xl text-center font-light text-purple-800"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -184,7 +223,7 @@ const TextInterface = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}>
-         Detect, Translate and Summarize
+          Detect, Translate and Summarize
         </motion.p>
       )}
 

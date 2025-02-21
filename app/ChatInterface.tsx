@@ -5,13 +5,6 @@ import { SendIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import {languageNames} from "./data"
-// Mock APIs for development - replace with actual Chrome AI APIs in production
-const mockLanguageDetector = async (text: string) => {
-  if (!("translation" in self) || !("createDetector" in self.translation)) {
-    console.log(".not-supported-message");
-    return;
-  }
-};
 
 //declaring message type
 interface Message {
