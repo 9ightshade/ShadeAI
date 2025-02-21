@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { SendIcon } from "lucide-react";
+import { languageNames } from "./data";
 
 // Mock APIs for development - replace with actual Chrome AI APIs in production
 const mockLanguageDetector = async (text: string) => {
@@ -49,14 +50,12 @@ const TextInterface = () => {
   const [isSummarized, setIsSummarized] = useState(false);
   const [summarizer, setSummarizer] = useState(null);
   const [translator, setTranslator] = useState(null);
+  const [showSummary, setShowSummary] = useState(false);
 
-  const languageNames = {
-    en: "English",
-    pt: "Portuguese",
-    es: "Spanish",
-    ru: "Russian",
-    tr: "Turkish",
-    fr: "French",
+  const handleAnimationComplete = () => {
+    setTimeout(() => {
+      setShowSummary(true); // Show summary after a delay
+    }, 500); // Adjust delay as needed
   };
 
   useEffect(() => {
@@ -90,13 +89,23 @@ const TextInterface = () => {
     setMessages([...messages, newMessage]);
     setInputText("");
 
+    const languageDetectorCapabilities =
+    await self.ai.languageDetector.capabilities();
+
+    const canDetect = languageDetectorCapabilities["available"];
+
+    let detector;
     // Detect language
+  if(canDetect === "readily"){
+    console.log("// The language detector can immediately be used.");
+    detector = await self.ai.languageDetector.create();
     try {
       const { language } = await mockLanguageDetector(inputText);
       updateMessage(newMessage.id, { detectedLanguage: language });
     } catch (error) {
       console.error("Language detection failed:", error);
     }
+  }
   };
 
   const handleSummarize = async (messageId: number) => {
