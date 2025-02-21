@@ -6,8 +6,8 @@ import TextInterface from "./TextInterface";
 export default function Home() {
   return (
     <div>
-      <ChatInterface/>
-      {/* <TextInterface/> */}
+      {/* <ChatInterface/> */}
+      <TextInterface/>
     </div>
   );
 }

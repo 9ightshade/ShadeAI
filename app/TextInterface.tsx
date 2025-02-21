@@ -90,22 +90,43 @@ const TextInterface = () => {
     setInputText("");
 
     const languageDetectorCapabilities =
-    await self.ai.languageDetector.capabilities();
+      await self.ai.languageDetector.capabilities();
 
     const canDetect = languageDetectorCapabilities["available"];
 
     let detector;
     // Detect language
-  if(canDetect === "readily"){
-    console.log("// The language detector can immediately be used.");
-    detector = await self.ai.languageDetector.create();
-    try {
-      const { language } = await mockLanguageDetector(inputText);
-      updateMessage(newMessage.id, { detectedLanguage: language });
-    } catch (error) {
-      console.error("Language detection failed:", error);
+    if (canDetect === "readily") {
+      console.log("// The language detector can immediately be used.");
+      detector = await self.ai.languageDetector.create();
+      try {
+        const language = await detector.detect(inputText);
+        let detectResponse;
+        // function to get highest confidence count
+        function getHighestConfidence(objects: any[]) {
+          return objects.reduce(
+            (
+              highest: { confidence: number },
+              current: { confidence: number }
+            ) => {
+              return current.confidence > highest.confidence
+                ? (detectResponse = current)
+                : (detectResponse = highest);
+            }
+          );
+        }
+
+        getHighestConfidence(language);
+
+        updateMessage(newMessage.id, {
+          detectedLanguage: detectResponse
+            ? detectResponse["detectedLanguage"]
+            : selectedLanguage,
+        });
+      } catch (error) {
+        console.error("Language detection failed:", error);
+      }
     }
-  }
   };
 
   const handleSummarize = async (messageId: number) => {
